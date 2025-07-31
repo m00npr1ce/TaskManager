@@ -1,46 +1,32 @@
-import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Random;
 
 public class Main {
     public static void main(String[] args) {
-        Manager manager = new Manager();
+        TaskManager inMemoryTaskManager = Managers.getDefault();
+        inMemoryTaskManager.addTask(new Task("Task1", "1", Task.Status.NEW));
+        inMemoryTaskManager.addTask(new Task("Task2", "2", Task.Status.NEW));
+        inMemoryTaskManager.addEpic(new Epic("Epic3", "3", new HashSet<>()));
+        inMemoryTaskManager.addEpic(new Epic("Epic4", "4", new HashSet<>()));
+        inMemoryTaskManager.addSubtask(new Subtask("Subtask5", "5", Task.Status.NEW, 3));
+        inMemoryTaskManager.addSubtask(new Subtask("Subtask6", "6", Task.Status.NEW, 3));
+        inMemoryTaskManager.addSubtask(new Subtask("Subtask7", "7", Task.Status.NEW, 3));
+        Random rand = new Random();
+        for (int i = 0; i < 1000; i++) {
+            int r = rand.nextInt(1, 4);
+            if (r == 1) {
+                inMemoryTaskManager.getTask(rand.nextInt(0, 2));
+            }
+            if (r == 2) {
+                inMemoryTaskManager.getEpic(rand.nextInt(2, 4));
+            }
+            if (r == 3) {
+                inMemoryTaskManager.getSubtask(rand.nextInt(4, 7));
+            }
+            System.out.println();
+            System.out.println(inMemoryTaskManager.history());
+            System.out.println();
+        }
 
-        // Создаем задачи
-        manager.addTask(new Task("Task1", "Description 1", Task.Status.NEW));
-        manager.addTask(new Task("Task2", "Description 2", Task.Status.NEW));
-
-        // Создаем эпики
-        manager.addEpic(new Epic("Epic1", "Epic 1 desc", new HashSet<>()));
-        manager.addEpic(new Epic("Epic2", "Epic 2 desc", new HashSet<>()));
-
-        // Создаем подзадачи
-        manager.addSubtask(new Subtask("Subtask1", "Desc 1", Task.Status.NEW, 2));
-        manager.addSubtask(new Subtask("Subtask2", "Desc 2", Task.Status.NEW, 2));
-        manager.addSubtask(new Subtask("Subtask3", "Desc 3", Task.Status.NEW, 3));
-
-        // Печатаем
-        System.out.println("Tasks: " + manager.getAllTasks());
-        System.out.println("Epics: " + manager.getAllEpics());
-        System.out.println("Subtasks: " + manager.getAllSubtasks());
-
-        // Обновляем статусы
-        manager.updateTask(new Task("Task1", "Updated desc", Task.Status.DONE), 0);
-        manager.updateSubtask(new Subtask("Subtask1", "Updated", Task.Status.IN_PROGRESS, 2), 4);
-
-        // Печатаем после обновления
-        System.out.println("\nAfter update:");
-        System.out.println("Tasks: " + manager.getAllTasks());
-        System.out.println("Epics: " + manager.getAllEpics());
-        System.out.println("Subtasks: " + manager.getAllSubtasks());
-
-        // Удаляем
-        manager.deleteTask(0);
-        manager.deleteEpic(2);
-
-        // Печатаем после удаления
-        System.out.println("\nAfter deletion:");
-        System.out.println("Tasks: " + manager.getAllTasks());
-        System.out.println("Epics: " + manager.getAllEpics());
-        System.out.println("Subtasks: " + manager.getAllSubtasks());
     }
 }

@@ -10,7 +10,7 @@ public class Epic extends Task {
     }
 
     public HashSet<Integer> getSubtaskIds() {
-        return subtaskIds;
+        return new HashSet<>(subtaskIds);
     }
 
     public void setSubtaskIds(HashSet<Integer> subtaskIds) {
